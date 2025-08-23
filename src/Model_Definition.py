@@ -60,7 +60,3 @@ def ResNet50_UNet(): #Model Definition
 
     model = Model(inputs=encoder.input, outputs=outputs)
     return model
-
-
-model = ResNet50_UNet()
-model.summary()

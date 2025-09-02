@@ -1,31 +1,10 @@
-import numpy as np
-import tensorflow as tf
 from tensorflow.keras.models import Model
-from tensorflow.keras.preprocessing import image
-from tensorflow.keras.applications.resnet50 import ResNet50, preprocess_input
+from tensorflow.keras.applications.resnet50 import ResNet50
 from tensorflow.keras.layers import Conv2D, Conv2DTranspose, Concatenate
 
 IMG_WIDTH = 224
 IMG_HEIGHT = 224
 IMG_CHANNELS = 3
-
-def load_img(image_path):  # Image loading function for ResNet50
-    input_shape = (IMG_WIDTH, IMG_HEIGHT, IMG_CHANNELS)
-    img = image.load_img(image_path, target_size=(input_shape[0], input_shape[1]))
-    img_array = image.img_to_array(img)
-    expanded_img_array = np.expand_dims(img_array, axis=0)
-    preprocessed_img = preprocess_input(expanded_img_array)
-    return preprocessed_img
-
-def rescale_to_uint8_img(img): #Rescales a ResNet50-normalized image to [0, 255] values.
-    img[:, :, :, 0] += 103.939
-    img[:, :, :, 1] += 116.779   
-    img[:, :, :, 2] += 123.68
-
-    img = img[:, :, :, ::-1]
-
-    rescale_img = np.clip(img, 0, 255).astype('uint8')
-    return rescale_img
 
 def ResNet50_UNet(): #Model Definition
     encoder = ResNet50(weights='imagenet', include_top=False, input_shape=(IMG_WIDTH, IMG_HEIGHT, IMG_CHANNELS))
